@@ -1,0 +1,485 @@
+/* styles.css */
+
+/* Add styles here to customize the appearance of your app */
+.userMain{
+  justify-content: space-between !important;
+  width: 240px;
+  border: 1px solid #ccc;
+  background-color: white;
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  padding: 10px;
+  text-align: center;
+}
+.userMain .userAvatar{
+  width: 60px;
+  border-radius: 5px;
+  flex: 1;
+}
+.userMain .logon{
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #1c4c68;
+}
+.userMain .logon:hover{
+  cursor: pointer;
+  background-color: #7198af;
+}
+.userMain .userPanel{
+  gap: 10px;
+  white-space: nowrap;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  border-bottom: 1px #ccc dashed;
+}
+.userMain .userDetail{
+  text-align: left;
+  flex: 2;
+}
+.settingPanel {
+  position: fixed;
+  top: 470px;
+  left: 20px;
+  color: #ddd;
+  background: #333;
+  font-size: 14px;
+  width: 150px;
+  line-height: 28px;
+  min-height: 50px;
+}
+.settingList{
+  padding: 0 10px;
+}
+.settingList:hover{
+  background-color: #888;
+  cursor: pointer;
+}
+
+.Item{
+  padding: 10px;
+  background-color: #ddd;
+  border-bottom: 1px solid #ccc;
+}
+.Item:hover{
+  background: #f6f6f6;
+    cursor: default;
+}
+.this_selected{
+  background-color: #efefef;
+}
+
+.Item .userAvatar{
+  display: inline-block;
+  width:  42px;
+  height: 42px;
+  vertical-align: middle;
+ position: relative;
+}
+.Item .userAvatar img{
+  width: 42px;
+}
+.userAvatar>.noticeNum{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: white;
+  font-size: 10px;
+  line-height: 24px;
+  border-radius: 12px;
+  height: 24px;
+  width: 24px;
+  background: red;
+  text-align: center;
+}
+
+.Item .userMessage{
+  width: calc(100% -  36px);
+  display: inline-block;
+  padding-left: 10px;
+}
+.Item .userMessage .title{
+  display: inline-block;
+  /* font-weight: bold; */
+  overflow: hidden;
+  width: 100%;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.Item .userMessage .lastMessage{
+  color: #aaa;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.chatMain{
+flex: 3;
+/* background-color: #f6f6f6; */
+overflow-y: scroll;
+}
+.inputMain{
+  flex: 1;
+  /* margin-bottom: 2px;
+  margin-right: 3px; */
+  position: relative;
+  justify-content: flex-start !important;
+  border: 1px solid #ccc;
+  width: 96%;
+  margin: 10px 2%;
+  border-radius: 5px;
+  background-color: white;
+}
+.inputPanel{
+  outline: none;
+  border: none;
+  /* border: 1px solid #ccc; */
+  /* width: 100%; */
+  font-size: 16px;
+  padding: 10px;
+  color: #666;
+  font-family: cursive;
+  flex: 4;
+  scrollbar-width: none;
+}
+
+.toolPanel{
+  position: relative;
+  padding: 5px;
+  flex: 1;
+}
+.toolPanel>:nth-child(n){
+  width: 22px;
+  margin-right: 5px;
+}
+.toolPanel>:nth-child(n):hover{
+  /* filter: sepia(1); */
+  cursor: pointer;
+}
+
+
+.messageItem{
+  width: 60%;
+  float: left;
+  margin: 10px;
+  align-items: flex-start !important;
+}
+.messageItem>.message{
+  padding-left: 10px;
+  display: inline;
+  float: left;
+  width: calc(100% - 80px);
+}
+.messageItem>.message>.userName{
+  text-align: left;
+  color: #aaa;
+  font-size: 12px;
+}
+.messageItem>.message>.messageBody{
+  display: inline;
+  float: left;
+  word-wrap : break-word;
+  max-width: 100%;
+  white-space: pre-wrap;
+  margin-top: 5px;
+  padding: 5px 10px ;
+  border-radius: 5px ;
+  color: #333;
+  background: white;
+  font-size: 16px;
+  position: relative;
+
+}
+.messageItem>img{
+  vertical-align: top;
+  width: 46px;
+  float: left;
+}
+.messageItem>.message>img{
+  width: 24px;
+}
+.chatPanel_tips{
+  display: inline-block;
+  width: 100%;
+  color: white;
+  text-align: center;
+  
+}
+.chatPanel_tips>:first-child{
+  display: inline;
+  padding: 0px 10px;
+  border-radius: 3px;
+  background: #ddd;
+  font-size: 14px;
+}
+.toastTools{
+  display: none;
+  position: absolute;
+  top: -220px;
+  left: 0;
+  width: 310px !important;
+  height: 200px;
+  overflow-y: scroll;
+  background: white;
+  padding: 10px 5px;
+  border: 1px solid #ccc;
+  scrollbar-width: none;
+}
+.toastTools>span,.toastTools>span>img{
+  height: 28px;
+  width: 28px;
+  display: inline-block;
+}
+.toastTools>span:hover{
+  background-color: #ccc;
+}
+.fileFont{
+  text-align: center;
+  font-size: 12px;
+}
+
+.mediaPanel{
+  display: none !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 200px;
+  background-color:white;
+  border: 1px solid #ccc;
+  z-index:9999;
+}
+.mediaPanel>.head{
+  background-color: #444;
+  color: #eee;
+  text-align: center;
+  flex: 2;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+
+}
+.mediaPanel>.head>.closed{
+position: absolute;
+padding: 5px;
+display: inline;
+color: #ccc;
+right: 0;
+}
+.mediaPanel>.head>.closed:hover{
+  color: white;
+  background-color: #666;
+}
+.mediaPanel>.media{
+  background-color: #fafafa;
+  flex: 9;
+}
+.mediaPanel>.media>video{
+  width: 100%;
+  height: 100%;
+}
+.wait_loading{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(200, 200, 200, 0.5);
+  z-index:99999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+ 
+}
+ .close_btn{
+    padding: 10px 20px;
+    background-color: #F56C6C;
+    color: white;
+    font-size: 18px;
+  }
+
+.toastContain{
+  display: none;
+  top: 10%;
+  position: fixed;
+  z-index: 99999;
+  width: 100%;
+  font-size: 14px;
+}
+  .popupStyle {
+  width: 50%;
+  margin: auto;
+  background-color: #1b4285;
+  color: #fff;
+  text-align: center;
+  border-radius:3px;
+  padding: 5px 0;
+}
+
+
+.modal{
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.selectedUser{
+  width: 40%;
+  padding: 20px;
+  background: white;
+}
+.selectedUserTitle{
+font-size: 18px;
+padding: 10px 0;
+font-weight: bold;
+text-align: center;
+}
+.selectedUserMain{
+  font-size: 14px;
+  padding: 10px;
+  height: 400px;
+  overflow-y: scroll;
+}
+.selectedUserItem{
+  line-height: 36px;
+  border-bottom: 1px solid #ddd;
+  padding: 0 10px;
+}
+.selectedUserItem>:first-child{
+  margin-right: 10px;
+}
+.btnDiv{
+  line-height: 32px;
+  justify-content: flex-end;
+}
+.btnDiv>:nth-child(n){
+  border: none;
+  outline: none;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+.btnDiv>:first-child{
+  margin-right: 20px;
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #1b4285;
+}
+.btnDiv>:last-child{
+  background-color: #1b4285;
+  color: #fff;
+}
+
+.inputQuote{
+  /* position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0; */
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #888;
+  background: #eee;
+  line-height: 20px;
+  cursor: pointer;
+}
+.voiceWave{
+  width: 100%;
+  height: 25px;
+}
+.voiceWave :first-child{
+  height: 25px !important;
+}
+.voice{
+height: 25px;
+width: 125px;
+}
+.voiceTime{
+  position: absolute;
+    right: -20px;
+    top: 12px;
+    font-size: 11px;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    color: white;
+    display: inline-block;
+    background: #1c4c68;
+    border-radius: 15px;
+}
+
+.userMobile,.userPass{
+  color: #aaa;
+  font-size: 14px;
+}
+.passReset{
+  color: #1b4285;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.passPanel{
+  position: absolute;
+  width: 300px;
+  height:200px;
+  top: calc(50% - 150px);
+  left: calc(50% - 100px);
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+}
+.passPanel .title{
+  text-align: center;
+  font-weight: 600;
+  color: white;
+  line-height: 36px;
+  height: 36px;
+  background-color: #1b4285;
+  flex: 1;
+}
+.passMain{
+  padding: 20px 0;
+  justify-content: space-between !important;
+  margin: 0 20px;
+  flex: 5;
+}
+.btnGroup{
+  line-height: 48px;
+  gap: 10px;
+  color: white;
+}
+.btnGroup>:nth-child(n){
+  border: 1px solid #ccc;
+  background: #ccc;
+  line-height: 26px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btnGroup .submit{
+  background-color: #1b4285;
+}
+.passContent.validPassContent,.btnGroup{
+  justify-content: center;
+}
+.passContent>:first-child,.validPassContent>:first-child{
+  flex: 1;
+}
+.passContent>:last-child,.validPassContent>:last-child{
+  flex: 2;
+  height: 22px;
+}
+
+.inputPanel::-webkit-scrollbar,.toastTools::-webkit-scrollbar{
+  width: 0
+}

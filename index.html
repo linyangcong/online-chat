@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
+    <link href="./styles.css" rel="stylesheet">
+    <!-- 声音处理 -->
+    <script src="./utils/wavesurfer.js"></script>
+    <script src="./utils/rnn_denoise.js"></script>
+    <script src="./renderer.js" type="module"></script>
+    <title>骚年，你真骚</title>
+    <style>
+      html,body{
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background-color: #1c4c68;
+      }
+      .flex-rows{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .flex-columns{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .el_head{
+        height: 40px;
+        border-bottom: 1px solid #fff;
+        justify-content: space-between;
+        padding:0 10px;
+        color: white;
+        font-size: 14px;
+        /* -webkit-user-select: none; */
+        -webkit-app-region: drag;
+      }
+      .headOperation{
+        -webkit-app-region: no-drag;
+      }
+       .headOperation>.min{
+        font-size: 42px;
+        line-height: 24px;
+        margin-top: -5px;
+        margin-right: 10px;
+        padding: 0px 5px;
+      }
+      .headOperation>.min:hover{
+        color: rgb(255, 121, 121);
+        cursor: pointer;
+      }
+      .headOperation>.closedAll{
+        font-size: 18px;
+        padding: 0 5px;
+        transform: rotate(0deg);
+        transition:transform 1s;
+        /* z-index: 99999; */
+      }
+      .headOperation>.closedAll:hover{
+        color: rgb(255, 121, 121);
+        cursor: pointer;
+        transform: rotate(180deg);
+      }
+      .page{
+        height: calc(100% - 40px);
+        justify-content: space-between;
+      }
+      .tool{
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+        height: 100%;
+        background-color: #333;
+      }
+      .tool>div{
+        /* padding:10px; */
+        text-align: center;
+        width: 100%;
+      }
+      .tool .toolImg{
+        display: block;
+        cursor: pointer;
+      }
+      .tool .toolImg:hover{
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      .tool img{
+        /* max-width: 32px;
+        min-width: 24px; */
+        width: 24px;
+        padding:10px 0;
+      }
+      
+      .leftPanel{
+        flex: 4;
+        height: 100%;
+        background-color: #fff;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        border-right: 1px solid #ccc;
+      }
+      .leftPanel::-webkit-scrollbar{
+            width: 0
+        }
+      .rightPanel{
+        flex: 12;
+        height: 100%;
+        background-color: #f6f6f6;
+      }
+      .rightPanel>.no-userSelected{
+        margin: auto;
+        width: 30%;
+      }
+      .rightPanel>.no-userSelected img{
+        width: 100%;
+        filter: opacity(0.1);
+      }
+      .rightPanel>.no-userSelected p{
+        font-size: 24px;
+        text-align: center;
+        color: #8b8a8a;
+      }
+
+      .login{
+        align-items: center;
+        position: relative;
+        /* justify-content: space-between; */
+        height: calc(100% - 40px);
+        background-color: #7198af;
+      }
+      .loginMain{
+        min-height: 360px;
+        width: 420px;
+        border-radius: 5px;
+        text-align: center;
+        background-color: white;
+        padding: 20px;
+      }
+
+      .loginBottom{
+        /* margin-top: 50px; */
+        position: absolute;
+        bottom: 10px;
+        line-height: 24px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-size: 14px;
+      }
+      .loginTitle{
+        line-height: 58px;
+          margin: 20px 0;
+          font-size: 24px;
+      }
+      .loginUserName,.loginPassword{
+        padding: 5px 40px 5px 0;
+      }
+      .userAvater{
+        flex: 3;
+        /* border: 1px solid #ccc; */
+        font-size: 64px;
+
+      }
+      #userAvater{
+        width: 48px;
+        font-size: 48px;
+        line-height: 48px;
+        /* height: 48px; */
+        color: #ccc;
+        border: 2px solid #ccc;
+        cursor: pointer;
+      }
+      .loginUserLabel,.loginPassLable{
+        flex: 1;
+        text-align: right;
+        padding-right: 10px;
+      }
+      .loginUserValue,.loginPassValue{
+        flex: 3;
+        line-height: 24px;
+        font-size: 16px;
+      }
+      .loginLink{
+        justify-content: space-between;
+        margin: 10px 10%;
+        font-size: 14px;
+        color: #7198af;
+        
+      }
+      .loginLink>:nth-child(n):hover{
+        color: #1c4c68;
+        cursor: pointer;
+      }
+      .loginOperation>.loginBtn{
+        /* width: 100%; */
+        padding: 10px;
+        margin: 50px 0 ;
+        background: #1c4c68;
+        color: white;
+        
+      }
+      .loginOperation>.loginBtn:hover{
+        background-color: #7198af;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="el_head flex-rows">
+      <div>客服系统</div>
+      <div class="forWho"></div>
+      <div class="headOperation flex-rows" >
+        <div class="min">-</div>
+        <div class="closedAll">X</div>
+      </div>
+    </div>
+    <div class="login flex-columns"></div>
+    <div class="page flex-rows" style="display: none;">
+      <div class="tool flex-columns"></div>
+      <!-- 左侧用户列表 -->
+      <div class="leftPanel"></div>
+      <!-- 右侧主面板 -->
+      <div class="rightPanel flex-columns">
+        <div class="no-userSelected">
+          <img src="./assets/favicon.ico" alt="">
+          <p>客服系统</p>
+        </div>
+      </div>
+  </div>
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>

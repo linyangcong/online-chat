@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新消息</title>
+  <style>
+    .trayTips{
+      font-size: 14px;
+      overflow: hidden;
+      /* border: 1px solid #586369; */
+    }
+    .trayTips>.tipBody{
+      border-bottom: 1px solid #ccc;
+    }
+    .trayTips>.tipBody>:nth-child(n):hover{
+      background-color: #eee;
+    }
+    .trayTips .Titletips{
+      font-weight: 600;
+      line-height: 28px;
+    }
+    .userTips img{
+      width: 36px;
+    }
+    .trayTips .userTips{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px;
+      
+    }
+    .userTips>.userImg{
+      width: 36px;
+      flex: 1;
+    }
+    .userTips .content{
+      flex: 3;
+      /* -webkit-flex-wrap:nowrap;
+      flex-wrap: nowrap; */
+      width: 60%;
+    }
+    .userTips .userName{
+      font-weight: 800;  
+    }
+    .userTips .text{
+      font-size: 12px;
+      color: #aaa;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space:nowrap;
+    }
+    .userTips>.tipsNum{
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .userTips>.tipsNum>:first-child{
+      background-color: red;
+      color: white;
+      width: 20px;
+      height: 20px;
+      display: block;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .trayTips .operation{
+      margin-top: 10px;
+      line-height: 28px;
+      color: #1c4c68;
+      text-align: right;
+      /* padding: 10px; */
+
+    }
+    .operation>:nth-child(n):hover{
+      cursor: pointer;
+      color: #7fb3d1;
+    }
+  </style>
+</head>
+<body>
+  <div class="trayTips">
+    <div class="Titletips">新消息</div>
+    <div class="tipBody">
+      <!-- <div class="userTips"> -->
+        <!-- <div class="userImg">
+          <img src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png" alt="">
+        </div>
+        <div class="userName">
+          <div>林养从</div>
+          <div>text</div>
+        </div>
+        <div class="tipsNum">
+          <span>1</span>
+        </div>
+      </div> -->
+    </div>
+    <div class="operation">
+      <!-- <span class="ignoreAll" onclick="igAllFn">忽略所有</span> -->
+    </div>
+  </div>
+  <script type="module">
+    
+   const {ipcRenderer}=require('electron')
+ 
+ const noImg="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
+initIPCON()
+
+function initIPCON(){
+  ipcRenderer.on('tray-msg', (e, param) => {
+    const obj=JSON.parse(param)
+    const tipBody= document.querySelector('.tipBody')
+    tipBody.innerHTML=''
+    if(obj.index=='renderTray'){
+      const messageList= obj.param
+      messageList.forEach(item=>{
+        tipBody.appendChild(renderItem(item))
+      })
+    }
+    
+  })
+}
+function igAllFn(){
+  ipcRenderer.send('tray-msg',JSON.stringify({index:'ignoreAll',type:'',data:{}}))
+}
+function renderItem(scoped){
+  const userTips=createNode('div',undefined,[{attrName:'classList',attrValue:"userTips"}])
+
+  const userImg=createNode('div',undefined,[{attrName:'classList',attrValue:'userImg'}])
+  const img=createNode('img',undefined,[{attrName:'src',attrValue:scoped.img||noImg}])
+  userImg.appendChild(img)
+
+  const content=createNode('div',undefined,[{attrName:'classList',attrValue:'content'}])
+  const userName=createNode('div',scoped.username||'姓名',[{attrName:'classList',attrValue:'userName'}])
+  const text=createNode('div',scoped.text||'',[{attrName:'classList',attrValue:'text'}])
+  content.appendChild(userName)
+  content.appendChild(text)
+
+  const tipsNum=createNode('div',undefined,[{attrName:'classList',attrValue:'tipsNum'}])
+  const span=createNode('span',scoped.newMassage||1,[])
+  tipsNum.appendChild(span)
+
+  userTips.appendChild(userImg)
+  userTips.appendChild(content)
+  userTips.appendChild(tipsNum)
+  userTips['onclick']=function(){
+    console.log(scoped,'2222222')
+    ipcRenderer.send('tray-msg',JSON.stringify({index:'findUser',type:'',data:{id:scoped.id,isMulty:scoped.isMulty}}))
+  }
+  return userTips
+}
+
+
+function createNode(nodeType,innerContent,attributes=[]){
+  const dom=document.createElement(nodeType)
+  if(innerContent)
+  dom.innerHTML=innerContent
+  if(attributes.length)
+  attributes.forEach(item=>{
+    if(item.attrName.substr(0,2)=='on'){
+      dom[item.attrName]=eval(item.attrValue).bind(null,item.param)
+  }
+    else
+    dom[item.attrName]=item.attrValue
+  })
+  return dom
+}
+  </script>
+  <!-- <script src="./tray.js"></script> -->
+</body>
+</html>
